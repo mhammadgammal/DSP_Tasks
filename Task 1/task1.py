@@ -19,7 +19,7 @@ class TaskOne:
         self.root_window.mainloop()
 
     def open_file(self):
-        indexes_one, values_one = plot.open_file()
+        indexes_one, values_one, file_name = plot.open_file()
         plot.generate_continuous_signal( indexes_one, values_one )
         plot.generate_discrete_signal( indexes_one, values_one )
 
