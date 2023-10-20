@@ -1,83 +1,81 @@
 from tkinter import *
 from tkinter import ttk
 import numpy as np
-
-window = Tk()
-window.geometry("500x300")
-
-signal_type_combo = ttk.Combobox( window, values=["Option 1", "Option 2", "Option 3"] )
-combo_box.pack()
-
-Aplitude_label = Label( window, text="Amplitude " )
-Aplitude_label.pack()
-
-Amplitude_field = Entry( window )
-Amplitude_field.pack()
-
-phase_shift_label = Label( window, text="Phase_Shift " )
-phase_shift_label.pack()
-
-phase_shift_field = Entry( window )
-phase_shift_field.pack()
-
-angular_frequency_label = Label( window, text="Angular Frequency" )
-angular_frequency_label.pack()
-
-angular_frequency_field = Entry( window )
-angular_frequency_field.pack()
-
-sampling_frequency_label = Label( window, text="Sampling Frequency" )
-sampling_frequency_label.pack()
-
-sampling_frequency_field = Entry( window )
-sampling_frequency_field.pack()
-
-plot_signal_button = Button(window, text='Generate Signal')
-window.mainloop()
+import signal_plot as plot
 
 
+class Task2:
+    def __init__(self):
+        self.x = ''
+        self.y = ''
+        self.amplitude = None
+        self.phase_shift = None
+        self.angular_frequency = None
+        self.sampling_frequency = None
+        self.signal_type = None
+        self.root_window = Tk()
+        self.root_window.geometry( "500x300" )
+        self.signal_type_combo = ttk.Combobox( self.root_window, values=['Sine', 'cosine'] )
+        self.signal_type_combo.set( 'Sine' )
+        self.signal_type_combo.pack()
 
+        self.amplitude_label = Label( self.root_window, text="Amplitude " )
+        self.amplitude_label.pack()
 
+        self.amplitude_field = Entry( self.root_window )
+        self.amplitude_field.pack()
 
-def generate_signal(
-        amplitude,
-        phase_shift,
-        angular_frequency,
-        sampling_frequency,
-        signal_type
-):
-    omega = none
-    if sampling_frequency == 0:
-        x = np.arange(
-            0,
-            2 * angular_frequency,
-            0.01
-        )
-        omega = 2 * np.pi * angular_frequency
+        self.phase_shift_label = Label( self.root_window, text="Phase_Shift " )
+        self.phase_shift_label.pack()
 
-        if signal_type == 'sine':
+        self.phase_shift_field = Entry( self.root_window )
+        self.phase_shift_field.pack()
 
-            y = amplitude * np.sin( omega + phase_shift )
-        elif signal_type == 'cosine':
-            y = amplitude * np.cos(
-                omega + phase_shift
-            )
+        self.angular_frequency_label = Label( self.root_window, text="Angular Frequency" )
+        self.angular_frequency_label.pack()
 
-    else:
-        x = np.arange( 0, sampling_frequency, 1 )
-        omega = 2 * np.pi * (angular_frequency / sampling_frequency)
-        if signal_type == 'sine':
-            y = amplitude * np.sin( omega + phase_shift )
-        elif signal_type == 'cosine':
-            y = amplitude * np.cos( omega + phase_shift )
+        self.angular_frequency_field = Entry( self.root_window )
+        self.angular_frequency_field.pack()
 
-    return x, y
+        self.sampling_frequency_label = Label( self.root_window, text="Sampling Frequency" )
+        self.sampling_frequency_label.pack()
 
-x, y = generate_signal(
-    amplitude= sampling_frequency_field.get(),
-    phase_shift= phase_shift_field.get(),
-    angular_frequency= angular_frequency_field.get(),
-    sampling_frequency= sampling_frequency_field.get(),
-    signal_type = signal_type_combo.get()
-)
+        self.sampling_frequency_field = Entry( self.root_window )
+        self.sampling_frequency_field.pack()
+
+        self.plot_signal_button = Button( self.root_window, text='Generate Signal', command=self.generate_signal )
+        self.plot_signal_button.pack()
+
+        self.root_window.mainloop()
+
+    def define_signal(self):
+        self.signal_type = self.signal_type_combo.get()
+        self.amplitude = float( self.amplitude_field.get() )
+        self.phase_shift = float( self.phase_shift_field.get() )
+        self.angular_frequency = float( self.angular_frequency_field.get() )
+        self.sampling_frequency = float( self.sampling_frequency_field.get() )
+
+        if self.sampling_frequency == 0:
+            self.sampling_frequency = 2 * self.angular_frequency
+            self.x = np.arange( 0, self.sampling_frequency, 1 )
+            if self.signal_type == 'Sine':
+                self.y = self.amplitude * np.sin( (2 * np.pi * self.angular_frequency) * self.x + self.phase_shift )
+            elif self.signal_type == 'cosine':
+                self.y = self.amplitude * np.cos( (2 * np.pi * self.angular_frequency) * self.x + self.phase_shift )
+        elif self.sampling_frequency < 2 * self.angular_frequency:
+            print( 'Invalid sampling frequency' )
+        else:
+            # x(n) = A sin(2 pi f n + theta)
+            self.x = np.arange( 0, self.sampling_frequency, 1 )
+            omega = 2 * np.pi * (self.angular_frequency / self.sampling_frequency)
+            if self.signal_type == 'Sine':
+                self.y = self.amplitude * np.sin( omega * self.x + self.phase_shift )
+            elif self.signal_type == 'cosine':
+                self.y = self.amplitude * np.cos( omega * self.x + self.phase_shift )
+
+    def generate_signal(self):
+        self.define_signal()
+        plot.generate_continuous_signal(self.x, self.y)
+        plot.generate_discrete_signal(self.x, self.y)
+
 

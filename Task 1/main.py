@@ -1,31 +1,19 @@
 import signal_plot as plot
 import tkinter as tk
 from tkinter import filedialog
-import matplotlib.pyplot as plt
+import task1
+import task2
 
 
-def open_file():
-    file_path = filedialog.askopenfilename(
-        filetypes=[('TextFiles', '*.txt')]
-    )
+def open_task_one():
+    task1.TaskOne()
+def open_task_two():
+    task1.TaskOne()
+main_screen = tk.Tk()
+main_screen.geometry('600x400')
+task_1 = tk.Button(main_screen, text='Task One', command=open_task_one, width=40)
+task_1.pack(anchor='w', padx=10, pady=30)
 
-    if file_path:
-        with open( file_path, 'r' ) as f:
-            signal_one_type = int( f.readline().strip() )
-            is_periodic_one = int( f.readline().strip() )
-            num_samples_one = int( f.readline().strip() )
-            samples_one = [list( map( float, line.strip().split() ) ) for line in f]
-            indexes_one = [sample[0] for sample in samples_one]
-            values_one =  [sample[1] for sample in samples_one]
-
-        plot.plot_signals( indexes_one, values_one )
-        stem_signals(indexes_one, values_one)
-
-
-
-root_window = tk.Tk()
-root_window.geometry("500x300")
-open_file_button = tk.Button(root_window, text='Open File', command=open_file)
-
-open_file_button.pack()   
-root_window.mainloop()
+task_2 = tk.Button(main_screen, text='Task One', command=open_task_two, width=40)
+task_2.pack(anchor='w', padx=10, pady=5)
+main_screen.mainloop()
