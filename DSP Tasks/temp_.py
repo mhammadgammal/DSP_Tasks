@@ -1,7 +1,7 @@
 import math
 from sklearn import preprocessing
-from QuanTest1 import QuantizationTest1
-from QuanTest2 import QuantizationTest2
+# from QuanTest1 import QuantizationTest1
+# from QuanTest2 import QuantizationTest2
 import tkinter as tk
 from tkinter import ttk
 def getdatafile(path):
@@ -63,7 +63,7 @@ def task1():
         for i in range(len(ra)):
             encod.append(bin3(ra[i]))
         print(encod)
-        QuantizationTest1("Quan1_Out.txt",encod,result)
+        # QuantizationTest1("Quan1_Out.txt",encod,result)
     b1 = tk.Button(window1, command=takeinput, text="task 1")
 
     b1.pack()
@@ -124,7 +124,7 @@ def task2():
         print(encod)
         print(result)
         print(er)
-        QuantizationTest2("Quan2_Out.txt",ra,encod,result,er)
+        # QuantizationTest2("Quan2_Out.txt",ra,encod,result,er)
     b1 = tk.Button(window1, command=takeinput, text="task 2")
     b1.pack()
 def home():

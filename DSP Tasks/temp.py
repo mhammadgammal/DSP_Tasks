@@ -1,4 +1,4 @@
-# from tkinter import *
+from tkinter import *
 # from tkinter import ttk
 # import numpy as np
 # import signal_plot as plot
@@ -94,3 +94,17 @@
 #     angular_frequency=angular_frequency,
 #     sampling_frequency=sampling_frequency
 # )
+
+
+def fun(x):
+    root = Tk()
+    Button(root, command=x).pack()
+    root.mainloop()
+
+
+def test():
+    print('Hello')
+
+fun(test)
+
+
