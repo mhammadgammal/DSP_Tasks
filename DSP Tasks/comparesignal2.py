@@ -28,11 +28,13 @@ def SignalSamplesAreEqual(file_name,samples):
                 
     if len(expected_samples)!=len(samples):
         print("Test case failed, your signal have different length from the expected one")
-        return
+        return "Test case failed, your signal have different length from the expected one"
     for i in range(len(expected_samples)):
         if abs(samples[i] - expected_samples[i]) < 0.01:
             continue
         else:
             print("Test case failed, your signal have different values from the expected one") 
-            return
+            return "Test case failed, your signal have different values from the expected one"
     print("Test case passed successfully")
+    return "Test case passed successfully"
+    
