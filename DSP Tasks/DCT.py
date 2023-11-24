@@ -5,7 +5,7 @@ import signal_plot
 import comparesignal2
 import matplotlib.pyplot as plt
 import tkinter as tk
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+
 from tkinter import messagebox
 class DctTransfrom:
     def __init__(self):
@@ -82,7 +82,7 @@ class DctTransfrom:
             y.append(y_k)
         test_result = comparesignal2.SignalSamplesAreEqual('DCT_output.txt', y)
         messagebox.showinfo('Test case Result', str(test_result))
-        self.plot_siganl(signal, y, 'Original Signal', 'DCT')
+        signal_plot.plot_original_and_affected(signal, y, 'Original Signal', 'DCT')
         return y
     def remove_dc_component(self):
         _, dc, _ = signal_plot.open_file()
@@ -94,20 +94,6 @@ class DctTransfrom:
             removed_dc = dc - np.mean(dc)
         test_result = comparesignal2.SignalSamplesAreEqual('DC_component_output.txt', list(removed_dc))
         messagebox.showinfo('Test case Result', test_result)
-        self.plot_siganl(dc, removed_dc, 'Original Signal', 'DC')
+        signal_plot.plot_original_and_affected(dc, removed_dc, 'Original Signal', 'DC')
         return list(removed_dc)
 
-    def plot_siganl(self, original_signal, signal_after_effect, original_signal_label, signal_after_effect_label):
-        # Create a figure and axis
-        fig, (original_signal_plt, signal_after_effect_plt)  = plt.subplots(2, 1, figsize=(5, 3))
-        original_signal_plt.plot(original_signal, label=original_signal_label)
-        original_signal_plt.legend()
-        signal_after_effect_plt.plot(signal_after_effect, label=signal_after_effect_label)
-        signal_after_effect_plt.legend()
-
-        # Embed the figure in the Tkinter window
-        canvas = FigureCanvasTkAgg(fig, master=self.root)
-        canvas_widget = canvas.get_tk_widget()
-        # canvas_widget.grid(row=1, column=0, padx=10, pady=10)
-        canvas_widget.pack(fill='both')
-        self.root.canvas_widget = canvas_widget

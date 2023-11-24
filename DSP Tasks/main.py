@@ -20,6 +20,7 @@ def open_Fourier_task():
 def open_task_5():
     DCT.DctTransfrom()
 main_screen = tk.Tk()
+main_screen.title('DSP Framework')
 main_screen.geometry('600x400')
 task_1 = tk.Button(main_screen, text='Task One', command=open_task_one, width=40)
 task_1.pack(anchor='w', padx=10, pady=30)
