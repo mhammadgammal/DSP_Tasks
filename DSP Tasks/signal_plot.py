@@ -49,7 +49,7 @@ def read_signal():
     indexes = [sample[0] for sample in samples]
     values = [sample[1] for sample in samples]
     return signal_type, is_periodic, num_samples, indexes, values
-def plot_original_and_affected(self, original_signal, signal_after_effect, original_signal_label, signal_after_effect_label):
+def plot_original_and_affected(root_window, original_signal, signal_after_effect, original_signal_label, signal_after_effect_label):
         # Create a figure and axis
         fig, (original_signal_plt, signal_after_effect_plt)  = plt.subplots(2, 1, figsize=(5, 3))
         original_signal_plt.plot(original_signal, label=original_signal_label)
@@ -58,8 +58,19 @@ def plot_original_and_affected(self, original_signal, signal_after_effect, origi
         signal_after_effect_plt.legend()
             
         # Embed the figure in the Tkinter window
-        canvas = FigureCanvasTkAgg(fig, master=self.root)
+        canvas = FigureCanvasTkAgg(fig, master=root_window)
         canvas_widget = canvas.get_tk_widget()
         # canvas_widget.grid(row=1, column=0, padx=10, pady=10)
         canvas_widget.pack(fill='both')
-        self.root.canvas_widget = canvas_widget
+        root_window.canvas_widget = canvas_widget
+
+def read_signal_from_file(file_name):
+    signal = open(file_name)
+    # define the signal
+    signal_type = int(signal.readline().strip())
+    is_periodic = int(signal.readline().strip())
+    num_samples = int(signal.readline().strip())
+    samples = [list(map(float, line.strip().split())) for line in signal]
+    indexes = [sample[0] for sample in samples]
+    values = [sample[1] for sample in samples]
+    return signal_type, is_periodic, num_samples, indexes, values    
