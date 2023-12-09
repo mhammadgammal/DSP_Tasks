@@ -74,3 +74,14 @@ def read_signal_from_file(file_name):
     indexes = [sample[0] for sample in samples]
     values = [sample[1] for sample in samples]
     return signal_type, is_periodic, num_samples, indexes, values    
+
+def read_signal(file_path):
+    signal = open(file_path)
+    # define the signal
+    signal_type = int(signal.readline().strip())
+    is_periodic = int(signal.readline().strip())
+    num_samples = int(signal.readline().strip())
+    samples = [list(map(float, line.strip().split())) for line in signal]
+    indexes = [sample[0] for sample in samples]
+    values = [sample[1] for sample in samples]
+    return signal_type, is_periodic, num_samples, indexes, values

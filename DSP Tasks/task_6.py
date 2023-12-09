@@ -187,5 +187,5 @@ class TimeDomain:
         x.sort()
         ConvTest.ConvTest(x, output_signal)
         return x, output_signal
-time_domain = TimeDomain()
+
 
