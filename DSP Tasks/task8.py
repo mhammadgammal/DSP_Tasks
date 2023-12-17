@@ -1,6 +1,6 @@
 import Fourierr_task as FourierTransform
 import tkinter as tk
-class fastOperation:
+class FastOperation:
     def __init__(self) -> None:
         self.root = tk.Tk()
         self.root.title('Choose Task')
@@ -27,6 +27,7 @@ class fastOperation:
         convolution = self.fast_convolution(signal1, signal2)
         print(convolution)
     def fast_correlation(self, signal1, signal2):
+        # fourier_transform = FourierTransform.FourierTransform()
         signal1_dft = FourierTransform.FourierTransform.calculate_dft(signal1)
         signal2_dft = FourierTransform.FourierTransform.calculate_dft(signal2)
         tmp = []
@@ -49,3 +50,5 @@ class fastOperation:
             result_conv_signal.append(x*y)
         result_conv_signal = FourierTransform.FourierTransform.calculate_idft(result_conv_signal)
         return result_conv_signal
+
+fastOperation = FastOperation()

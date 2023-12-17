@@ -85,3 +85,23 @@ def read_signal(file_path):
     indexes = [sample[0] for sample in samples]
     values = [sample[1] for sample in samples]
     return signal_type, is_periodic, num_samples, indexes, values
+
+def read_filter_specifications():
+    file_path = filedialog.askopenfilename(
+        filetypes=[('TextFiles', '*.txt')]
+    )
+    
+    try:
+        filter_specs = {} 
+        with open(file_path, 'r') as file:
+            file_lines = file.readlines()
+        
+        for line in file_lines:
+            file_line = line.split('=')
+            filter_spec_key = file_line[0]
+            filter_spec_value = file_line[1]
+            filter_specs[filter_spec_key] = filter_spec_value
+
+        return filter_specs
+    except Exception as exp:
+        print(str(exp))

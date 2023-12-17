@@ -108,38 +108,40 @@ class FourierTransform:
         self.calculate_dft(self.signal_phase)
     def on_idft_click(self):
         self.calculate_idft(self.signal_phase)
-    def calculate_dft(self, signal_values):
+    @staticmethod
+    def calculate_dft( signal_values):
         out_signal = []
         for k in range(len(signal_values)):
-            harmonic = self.calculate_harmonic(k, signal_values)
+            harmonic = FourierTransform.calculate_harmonic(k, signal_values, 'dft')
             out_signal.append(harmonic)
         return out_signal
-
-    def calculate_idft(self, signal_values):
+    @staticmethod
+    def calculate_idft( signal_values):
         out_signal = []
         for k in range(len(signal_values)):
-            harmonic = self.calculate_harmonic(k, signal_values)
+            harmonic = FourierTransform.calculate_harmonic(k, signal_values, 'idft')
             out_signal.append(int(harmonic.real))
         return out_signal
-    def calculate_harmonic(self, k, signal_values):
-        print('signal type:', self.signal_type)
+    @staticmethod
+    def calculate_harmonic(k, signal_values, signal_type):
+        
         N = len(signal_values)
         summ = 0
         for n in range(N):
-            summ += self.calculate_one_element(n, k, signal_values)
-        if self.signal_type == 'idft':
+            summ += FourierTransform.calculate_one_element(n, k, signal_values, signal_type)
+        if signal_type == 'idft':
             return summ * (1 / N)
         return summ
-
-    def calculate_one_element(self, n, k, values):
+    @staticmethod
+    def calculate_one_element(n, k, values, signal_type):
         if values[n] == 0:
             return 0
-        rtn = values[n] * self.calculate_exp(n, k, len(values))
-        if self.signal_type == 'idft':
+        rtn = values[n] * FourierTransform.calculate_exp(n, k, len(values), signal_type)
+        if signal_type == 'idft':
             rtn = (rtn.real.__round__() + (rtn.imag.__round__() * 1j))
         return rtn
-
-    def calculate_exp(self,n, k , N):
+    @staticmethod
+    def calculate_exp(n, k , N, signal_type):
         pow = (1j * 2 * n * k) / N
         if pow.imag == 0:
             return 1 + 0j
@@ -147,7 +149,7 @@ class FourierTransform:
         sin_value = float(math.sin(math.pi * abs(pow.imag)))
         cos_value = float(math.cos(math.pi * abs(pow.imag)))
 
-        if self.signal_type == 'dft':
+        if signal_type == 'dft':
             sin_value *= -1j
         else:
             cos_value = cos_value.__round__()
@@ -155,13 +157,13 @@ class FourierTransform:
         e = cos_value  + sin_value
 
         return e
-
+    @staticmethod
     def calculate_fundamentel_freq(self, sampling_freqency, length_of_signal):
         periodic_time = 1 / sampling_freqency
         down_term = length_of_signal * periodic_time
         up_term = 2 * math.pi
         return up_term / down_term
-
+    @staticmethod
     def calculate_amplitude(self, data):
 
         ampl = []
@@ -171,7 +173,7 @@ class FourierTransform:
             summ = powered_real_number + powered_imag_number
             ampl.append(math.sqrt(float(summ)))
         return ampl
-
+    @staticmethod
     def calculate_phase_shift(self, data):
         phases = []
         for i in range(len(data)):
